@@ -1,12 +1,47 @@
-﻿<Window x:Class="Resurs.MainWindow"
+﻿<Window x:Name="Resources" x:Class="Resurs.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Resurs"
+        xmlns:local="clr-namespace:Resurs" xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="ResourcesWindow" Height="450" Width="800">
+    <!--<Grid Margin="0,0,2,0">
+        <Grid.Background>
+            <ImageBrush ImageSource="природа.jpg"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="243*"/>
+        </Grid.ColumnDefinitions>
+
+    </Grid>-->
+    <Window.Resources>
+        <sys:String x:Key="strWindow">Женился</sys:String>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="image/природа.jpg"/>
+    </Window.Background>
+    <DockPanel Margin="10" Name="pnlMain">
+        <DockPanel.Resources>
+            <sys:String x:Key="strPanel">Родился</sys:String>
+        </DockPanel.Resources>
+        <DockPanel.Background>
+            <ImageBrush ImageSource="природа.jpg"/>
+        </DockPanel.Background>
+        <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10">
+            <Button x:Name="btnClickMe" Click="btnClickMe_Click" RenderTransformOrigin="-2.535,3.854" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF398289" Content="Click me!"/>
+        </WrapPanel>
+
+        <ListBox Name="lbResult" Width="289" Margin="0,0,0,166" OpacityMask="#FF31549E" HorizontalAlignment="Right" Foreground="#FFE62929" >
+            <ListBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF4FABE0"/>
+                    <GradientStop Color="#FF95A8B2" Offset="1"/>
+                </LinearGradientBrush>
+            </ListBox.Background>
+        </ListBox>
+    </DockPanel>
 </Window>

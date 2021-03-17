@@ -24,5 +24,13 @@ namespace Resurs
         {
             InitializeComponent();
         }
+
+        private void btnClickMe_Click(object sender, RoutedEventArgs e)
+        {
+            lbResult.Items.Add(Application.Current.FindResource("strApp").ToString());
+            lbResult.Items.Add(pnlMain.FindResource("strPanel").ToString());
+            lbResult.Items.Add(this.FindResource("strWindow").ToString());
+            
+        }
     }
 }
