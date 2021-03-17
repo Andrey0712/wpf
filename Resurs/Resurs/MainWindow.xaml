@@ -21,7 +21,7 @@
     <Window.Resources>
         <sys:String x:Key="strWindow">Работаю системнім администратором</sys:String>
 
-        <!--<sys:Image x:Key="myImage">"image/2.jpg" />-->
+       
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="image/природа.jpg"/>
