@@ -19,29 +19,43 @@
 
     </Grid>-->
     <Window.Resources>
-        <sys:String x:Key="strWindow">Женился</sys:String>
+        <sys:String x:Key="strWindow">Работаю системнім администратором</sys:String>
+
+        <!--<sys:Image x:Key="myImage">"image/2.jpg" />-->
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="image/природа.jpg"/>
     </Window.Background>
-    <DockPanel Margin="10" Name="pnlMain">
+    <DockPanel Margin="10,10,2,-21" Name="pnlMain">
         <DockPanel.Resources>
-            <sys:String x:Key="strPanel">Родился</sys:String>
+
+            <sys:String x:Key="strPanel">Родился в городе Ровно в 1990 г.</sys:String>
         </DockPanel.Resources>
         <DockPanel.Background>
             <ImageBrush ImageSource="природа.jpg"/>
         </DockPanel.Background>
-        <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10">
-            <Button x:Name="btnClickMe" Click="btnClickMe_Click" RenderTransformOrigin="-2.535,3.854" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF398289" Content="Click me!"/>
+        <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="30,10,477,10" Height="330" Width="273">
+            <TextBlock 
+                Text="Привет, это я :" 
+                               
+                               TextAlignment="Center"
+                               VerticalAlignment="Center"
+                           FontSize="28" Height="49" Foreground="#FFE83768" />
+            <Image Source="image/2.jpg" Width="174" RenderTransformOrigin="0.25,0.25" Height="229" />
+            <Button x:Name="btnClickMe" Click="btnClickMe_Click" 
+                    
+                    Foreground="#FF398289" Content="Моя биография" RenderTransformOrigin="0.082,5.2" Height="48" Width="169" FontSize="18">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-0.493"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
         </WrapPanel>
 
-        <ListBox Name="lbResult" Width="289" Margin="0,0,0,166" OpacityMask="#FF31549E" HorizontalAlignment="Right" Foreground="#FFE62929" >
-            <ListBox.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF4FABE0"/>
-                    <GradientStop Color="#FF95A8B2" Offset="1"/>
-                </LinearGradientBrush>
-            </ListBox.Background>
-        </ListBox>
+        <ListBox Name="lbResult" Width="539" Margin="0,-99,0,10" OpacityMask="#FF31549E" HorizontalAlignment="Right" Foreground="#FFE62929" Background="{x:Null}" FontSize="18" FontFamily="Snap ITC" />
     </DockPanel>
 </Window>
