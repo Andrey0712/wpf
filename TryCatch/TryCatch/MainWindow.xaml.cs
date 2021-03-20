@@ -31,24 +31,16 @@ namespace TryCatch
         /// <param name="e">Параметри</param>
         private void btnException_Click(object sender, RoutedEventArgs e)
         {
-            //  Ініціалізація нової строки і присвоєння їй NULL
             string s = null;
             try
             {
-                //  Виконування операції над елементом який дорівнює null
-                //  Вивлети Exception, яка обробиться локальним обробником try... catch..
                 s.Trim();
             }
-            //  Відловлювання помилки
             catch (Exception ex)
             {
-                //  Виведення вікна, яке сповіщає про помилку яка сталася у коді,
-                //  використовуючи обєкт помилки. У вікні є лише одна кнопка і тип зображення вікна змінено на
-                //  MessageBoxImage.Warning
-                MessageBox.Show("A handled exception just occurred: " +
-                    ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
+                //MessageBox.Show("A handled exception just occurred: " + ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("MainWindow " + ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            //  Виконування операції над елементом, якому присвоєно NULL
             s.Trim();
         }
     }

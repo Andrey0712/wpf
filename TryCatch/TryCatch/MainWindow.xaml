@@ -7,12 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <!--Створення єдиної кнопки, яка генерує помилку подією Click-->
+       
         <Button x:Name="btnException" Width="150" Height="50" Click="btnException_Click"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button.Content>
-                <!--Текст зображений в кнопці-->
-                Ошибочка!
+                    Ошибочка!
             </Button.Content>
         </Button>
     </Grid>
