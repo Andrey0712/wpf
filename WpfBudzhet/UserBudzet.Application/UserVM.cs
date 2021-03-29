@@ -43,7 +43,7 @@ namespace UserBudzet.Application
                 set
                 {
                 _tranіaction = value;
-                    this.NotifyPropertyChanged("Birthday");
+                    this.NotifyPropertyChanged("Tranіaction");
                 }
             }
 

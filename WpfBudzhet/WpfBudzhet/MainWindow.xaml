@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfBudzhet"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Right" Margin="10,0,0,0" Width="150">
             <Button x:Name="btnAdd" Content="Додати"/>
@@ -13,11 +13,12 @@
         </StackPanel>
         <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Назва" Binding="{Binding Name}"/>
-                <DataGridTemplateColumn Header="Birthday">
+                <DataGridTemplateColumn Header="Tranіaction">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Birthday}" BorderThickness="0" />
+                            <DatePicker SelectedDate="{Binding Tranіaction}" BorderThickness="0" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -25,7 +26,7 @@
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <DockPanel Background="GhostWhite">
-                        <Image DockPanel.Dock="Left" Source="{Binding ImageUrl}" Height="64" Margin="10" />
+                        <Image DockPanel.Dock="Left" Source="{Binding Image}" Height="64" Margin="10" />
                         <Grid Margin="0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -35,15 +36,18 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                
                             </Grid.RowDefinitions>
 
                             <TextBlock Text="ID: " FontWeight="Bold" />
                             <TextBlock Text="{Binding Id}" Grid.Column="1" />
-                            <TextBlock Text="Name: " FontWeight="Bold" Grid.Row="1" />
-                            <TextBlock Text="{Binding Name}" Grid.Column="1" Grid.Row="1" />
-                            <TextBlock Text="Birthday: " FontWeight="Bold" Grid.Row="2" />
-                            <TextBlock Text="{Binding Birthday, StringFormat=d}" Grid.Column="1" Grid.Row="2" />
-                            <!--<TextBlock Text="{Binding Details}" Margin="10" Grid.ColumnSpan="2" />-->
+                            <TextBlock Text="Name: " FontWeight="Bold"  Grid.Row="1" />
+                            <TextBlock Text="{Binding Name}" Grid.Column="1"  Grid.Row="1" />
+                            <TextBlock Text="Tranіaction: " FontWeight="Bold" Grid.Row="2" />
+                            <TextBlock Text="{Binding Tranіaction, StringFormat=d}" Grid.Column="1"  Grid.Row="2" />
+                            <TextBlock Text="Details: " FontWeight="Bold"  Grid.Row="3" />
+                            <TextBlock Text="{Binding Details}" Grid.Column="1"  Grid.Row="3" />
                         </Grid>
                     </DockPanel>
                 </DataTemplate>
