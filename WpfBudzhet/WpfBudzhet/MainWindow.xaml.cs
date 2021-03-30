@@ -51,5 +51,22 @@ namespace WpfBudzhet
             Add_User_Window addUser = new Add_User_Window(this._users);
             addUser.Show();
         }
+
+        
+        private void btnDell_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgSimple.SelectedItem != null)
+            {
+                if (dgSimple.SelectedItem is UserVM)
+                {
+                    var userDell = dgSimple.SelectedItem as UserVM;//Выбираем по строке грида
+                    int id = int.Parse((userDell.Id).ToString());
+                    var user = _context.Users.SingleOrDefault(c => c.Id == id);
+                    _context.Users.Remove(user);
+                    _context.SaveChanges();
+                }
+            }
+            Window_Loaded(sender, e);
+        }
     }
 }
