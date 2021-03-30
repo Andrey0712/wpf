@@ -45,5 +45,11 @@ namespace WpfBudzhet
             _users = new ObservableCollection<UserVM>(list);
             dgSimple.ItemsSource = _users;
         }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Add_User_Window addUser = new Add_User_Window(this._users);
+            addUser.Show();
+        }
     }
 }

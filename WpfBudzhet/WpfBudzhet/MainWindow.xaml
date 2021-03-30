@@ -8,8 +8,8 @@
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Right" Margin="10,0,0,0" Width="150">
-            <Button x:Name="btnAdd" Content="Додати"/>
-            <Button x:Name="btnEdt" Content="Додати" Margin="0,5"/>
+            <Button x:Name="btnAdd" Content="Добавить" Click="btnAdd_Click"/>
+            <Button x:Name="btnEdt" Content="Редактировать" Margin="0,5"/>
         </StackPanel>
         <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0">
             <DataGrid.Columns>
