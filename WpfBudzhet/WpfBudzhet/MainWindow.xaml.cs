@@ -23,6 +23,7 @@ namespace WpfBudzhet
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static int chang_User;
         private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();
         private EFDataContext _context = new EFDataContext();
         public MainWindow()
@@ -67,6 +68,23 @@ namespace WpfBudzhet
                 }
             }
             Window_Loaded(sender, e);
+        }
+
+        
+        private void btnEdt_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgSimple.SelectedItem != null)
+            {
+                if (dgSimple.SelectedItem is UserVM)
+                {
+                    var userDell = dgSimple.SelectedItem as UserVM;//Выбираем по строке грида
+                    int id = int.Parse((userDell.Id).ToString());
+                    chang_User = id;
+                    Edit_User_Window editUser = new Edit_User_Window(this._users);
+                    editUser.Show();
+
+                }
+            }
         }
     }
 }
