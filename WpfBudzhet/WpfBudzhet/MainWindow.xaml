@@ -6,28 +6,46 @@
         xmlns:local="clr-namespace:WpfBudzhet"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <DockPanel Margin="10">
+    <DockPanel Margin="10" Background="#FFD6B2B2">
         <StackPanel DockPanel.Dock="Right" Margin="10,0,0,0" Width="150">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Foreground" Value="Gold" />
+                    <Setter Property="BorderBrush" Value="Green" />
+                    <Setter Property="Background" Value="LightBlue" />
+                    <Setter Property="FontSize" Value="20" />
+                </Style>
+            </StackPanel.Resources>
             <Button x:Name="btnAdd" Content="Добавить" Click="btnAdd_Click"/>
             <Button x:Name="btnEdt" Content="Редактировать" Margin="0,5" Click="btnEdt_Click"/>
             <Button x:Name="btnDell" Content="Удалить"  Margin="0,0,0,0.5" Click="btnDell_Click"/>
             <Button x:Name="btnUpdate" Content="Обновить базу"  Margin="0,5" Click="btnUpdate_Click"/>
         </StackPanel>
-        <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+        <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0" Background="Pink">
+            <DataGrid.Resources>
+                <Style TargetType="DataGrid">
+                        <Setter Property="Foreground" Value="Purple" />
+                        <Setter Property="BorderBrush" Value="DarkViolet" />
+                        <Setter Property="Background" Value="LightPink" />
+                        <Setter Property="FontSize" Value="12" />
+                    </Style>
+                </DataGrid.Resources>
+            <DataGrid.Columns >
+
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Назва" Binding="{Binding Name}"/>
                 <DataGridTemplateColumn Header="Tranіaction">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Tranіaction}" BorderThickness="0" />
+                            <DatePicker SelectedDate= "{Binding Tranіaction}" BorderThickness="0" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
+            <DataGrid.RowDetailsTemplate >
                 <DataTemplate>
-                    <DockPanel Background="GhostWhite">
+                    <DockPanel Background="YellowGreen">
+                        
                         <Image DockPanel.Dock="Left" Source="{Binding Image}" Height="64" Margin="10" />
                         <Grid Margin="0,10">
                             <Grid.ColumnDefinitions>
@@ -41,7 +59,7 @@
                                 <RowDefinition Height="Auto" />
                                 
                             </Grid.RowDefinitions>
-
+                           
                             <TextBlock Text="ID: " FontWeight="Bold" />
                             <TextBlock Text="{Binding Id}" Grid.Column="1" />
                             <TextBlock Text="Name: " FontWeight="Bold"  Grid.Row="1" />

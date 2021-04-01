@@ -27,6 +27,7 @@ namespace WpfBudzhet
         private readonly ObservableCollection<UserVM> _users;
         private EFDataContext _context = new EFDataContext();
         public static string New_FileName { get; set; }
+        //public string Foto_dell { get; set; } = null;
 
         public Edit_User_Window(System.Collections.ObjectModel.ObservableCollection<UserBudzet.Application.UserVM> users)
         {
@@ -70,10 +71,23 @@ namespace WpfBudzhet
                 var saveDir = Path.Combine(dir, "images");
                 if (!Directory.Exists(saveDir))
                     Directory.CreateDirectory(saveDir);
+                //if (!string.IsNullOrEmpty(us.Image))
+                //{
+                //    var dir_del = Path.Combine(Directory.GetCurrentDirectory(),
+                //        "images", us.Image);
+
+                //    //pbImage.Image = Image.FromStream(new MemoryStream(File.ReadAllBytes(dir)));
+                //    Foto_dell = dir_del;
+                //}
                 var fileSave = Path.Combine(saveDir, imageName);
                 File.Copy(New_FileName, fileSave);
                 us.Image = fileSave;
             }
+            //if (File.Exists(Foto_dell))
+            //{
+
+            //    File.Delete(Foto_dell);
+            //}
             _context.SaveChanges();
 
            

@@ -3,10 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:WpfBudzhet"
         mc:Ignorable="d"
         Title="Додати нового кота" Height="434" Width="450" >
-    <DockPanel Margin="10">
+    <DockPanel Margin="10" Background="#FFD6B2B2">
+        <DockPanel.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Foreground" Value="Gold" />
+                <Setter Property="BorderBrush" Value="Green" />
+                <Setter Property="Background" Value="DodgerBlue" />
+                <Setter Property="FontSize" Value="12" />
+
+            </Style>
+            <Style TargetType="RadioButton">
+                <Setter Property="Foreground" Value="Purple" />
+                <Setter Property="Background" Value="DodgerBlue" />
+                <Setter Property="FontSize" Value="15" />
+
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="Blue" />
+
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Foreground" Value="Gold" />
+                <Setter Property="BorderBrush" Value="Blue" />
+                <Setter Property="Background" Value="LightBlue" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+        </DockPanel.Resources>
         <StackPanel>
             <WrapPanel Margin="5">
                 <Label Content="Имя контрагента :" 
@@ -43,8 +70,8 @@
                        Width="152"/>
                 <!--<TextBox Name="tbBirthday" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="238"/>-->
                 <DatePicker x:Name="dpDate" 
-                            SelectedDate="{Binding Tranіaction}" 
-                            BorderThickness="0" />
+                            SelectedDate="{x:Static sys:DateTime.Now}" Background="#FFDA5988" 
+                            BorderThickness="0" Width="123" />
             </WrapPanel>
             <WrapPanel Margin="5">
                 <Label Content="Деталі:" 

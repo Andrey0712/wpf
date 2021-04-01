@@ -6,33 +6,54 @@
         xmlns:local="clr-namespace:WpfBudzhet"
         mc:Ignorable="d"
         Title="Окно изменения данных" Height="250" Width="400" Loaded="Window_Loaded">
-    <Canvas>
+    <Canvas Background="#FFD6B2B2">
+        <Canvas.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Foreground" Value="Gold" />
+                <Setter Property="BorderBrush" Value="Green" />
+                <Setter Property="Background" Value="DodgerBlue" />
+                <Setter Property="FontSize" Value="12" />
+                
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="Blue" />
+                
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Foreground" Value="Gold" />
+                <Setter Property="BorderBrush" Value="Blue" />
+                <Setter Property="Background" Value="LightBlue" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+        </Canvas.Resources>
         <WrapPanel Margin="5">
+
             <Label Content="Откорректируйте имя контрагента :" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Center" 
                        Height="30" 
-                       Width="200"/>
+                       Width="200" />
             <TextBox x:Name="tbName" 
                          HorizontalAlignment="Left" 
                          Height="30" 
                          TextWrapping="Wrap" 
                          VerticalAlignment="Center" 
-                         Width="125"/>
+                         Width="125" />
         </WrapPanel>
         <WrapPanel Margin="5" Canvas.Left="9" Canvas.Top="40">
             <Label Content="Обновить информацию :" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
                        Height="30" 
-                       Width="152"/>
+                       Width="152" />
             <TextBox x:Name="tbDetails" 
                          AcceptsReturn="True" 
                          HorizontalAlignment="Left" 
                          Height="90" 
                          TextWrapping="Wrap" 
                          VerticalAlignment="Top" 
-                         Width="200"/>
+                         Width="200" />
         </WrapPanel>
 
         <Button x:Name="Chang_foto" Width="120"

@@ -83,6 +83,10 @@ namespace WpfBudzhet
                     chang_User = id;
                     Edit_User_Window editUser = new Edit_User_Window(this._users);
                     editUser.Show();
+                    //if (editUser.ShowDialog() == true)
+                    //{
+                    //    Window_Loaded(sender, e);
+                    //}
 
                 }
             }
