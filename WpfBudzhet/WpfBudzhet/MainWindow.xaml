@@ -11,7 +11,7 @@
             <Button x:Name="btnAdd" Content="Добавить" Click="btnAdd_Click"/>
             <Button x:Name="btnEdt" Content="Редактировать" Margin="0,5" Click="btnEdt_Click"/>
             <Button x:Name="btnDell" Content="Удалить"  Margin="0,0,0,0.5" Click="btnDell_Click"/>
-                        
+            <Button x:Name="btnUpdate" Content="Обновить базу"  Margin="0,5" Click="btnUpdate_Click"/>
         </StackPanel>
         <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0">
             <DataGrid.Columns>

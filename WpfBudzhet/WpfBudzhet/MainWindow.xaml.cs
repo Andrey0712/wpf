@@ -51,6 +51,7 @@ namespace WpfBudzhet
         {
             Add_User_Window addUser = new Add_User_Window(this._users);
             addUser.Show();
+            Window_Loaded(sender, e);
         }
 
         
@@ -85,6 +86,11 @@ namespace WpfBudzhet
 
                 }
             }
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Window_Loaded(sender, e);
         }
     }
 }
