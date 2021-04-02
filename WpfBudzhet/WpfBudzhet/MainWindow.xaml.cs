@@ -40,8 +40,10 @@ namespace WpfBudzhet
                 Name = x.Name,
                 Tranіaction = x.Tranіaction,
                 Details = x.Details,
-                Image = x.Image
-
+                Image = x.Image,
+                Price = x.AppTranzactionPrices
+                        .OrderByDescending(x => x.DateCreate)
+                        .FirstOrDefault().Price
             }).ToList();
             _users = new ObservableCollection<UserVM>(list);
             dgSimple.ItemsSource = _users;

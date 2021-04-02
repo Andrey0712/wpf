@@ -24,14 +24,14 @@ namespace Budzet.EFData
                                             Details="-2000 дол",
                                             Image="https://www.meme-arsenal.com/memes/06d6608a0dd7397bfd87a1d7e9213de9.jpg"
                                         },
-                                    new AppUser
-                                        {
-                                            Name = "Катюха",
-                                            DebitKredit=false,
-                                            Tranіaction=new DateTime(2018, 10,13),
-                                            Details="+500 дол",
-                                            Image="https://new-magazine.ru/wp-content/uploads/2020/06/image-08-06-20-01-35-3.jpeg"
-                                        },
+                                    //new AppUser
+                                    //    {
+                                    //        Name = "Катюха",
+                                    //        DebitKredit=false,
+                                    //        Tranіaction=new DateTime(2018, 10,13),
+                                    //        Details="+500 дол",
+                                    //        Image="https://new-magazine.ru/wp-content/uploads/2020/06/image-08-06-20-01-35-3.jpeg"
+                                    //    },
 
                                 };
 
@@ -41,6 +41,34 @@ namespace Budzet.EFData
                         context.SaveChanges();
                     }
                 }
+                if (!context.AppTranzactionPrices.Any())
+                {
+                    var user = context.Users.FirstOrDefault();
+                    var tranzactionPrise = new List<AppTranzactionPrice>
+                    {
+                        new AppTranzactionPrice
+                        {
+                            UserId=user.Id,
+                            DateCreate=DateTime.Now,
+                            Price=150.10M
+                        },
+                        new AppTranzactionPrice
+                        {
+                            UserId=user.Id,
+                            DateCreate=DateTime.Now.AddDays(-5),
+                            Price=170.20M 
+                        }
+                    };
+                    foreach (var prise in tranzactionPrise)
+                    {
+                        context.Add(prise);
+                        context.SaveChanges();
+                    }
+                    
+                
+                }
+
+
             }
         }
        

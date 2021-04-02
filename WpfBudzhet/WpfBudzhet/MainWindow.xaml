@@ -41,6 +41,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate >
                 <DataTemplate>
@@ -57,6 +58,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 
                             </Grid.RowDefinitions>
                            
@@ -68,6 +70,8 @@
                             <TextBlock Text="{Binding Tranіaction, StringFormat=d}" Grid.Column="1"  Grid.Row="2" />
                             <TextBlock Text="Details: " FontWeight="Bold"  Grid.Row="3" />
                             <TextBlock Text="{Binding Details}" Grid.Column="1"  Grid.Row="3" />
+                            <TextBlock Text="Price: " FontWeight="Bold"  Grid.Row="4" />
+                            <TextBlock Text="{Binding Price}" Grid.Column="1"  Grid.Row="4" />
                         </Grid>
                     </DockPanel>
                 </DataTemplate>

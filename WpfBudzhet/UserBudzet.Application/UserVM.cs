@@ -15,8 +15,9 @@ namespace UserBudzet.Application
             private DateTime _tranіaction;
             private string _details;
             private string _image;
+            private decimal _price;
 
-            public int Id
+        public int Id
             {
                 get { return _id; }
                 set
@@ -66,8 +67,17 @@ namespace UserBudzet.Application
                     this.NotifyPropertyChanged("Image");
                 }
             }
+        public decimal Price
+        {
+            get { return _price; }
+            set
+            {
+                _price = value;
+                this.NotifyPropertyChanged("Price");
+            }
+        }
 
-            public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
             public void NotifyPropertyChanged(string propName)
             {

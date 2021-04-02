@@ -7,6 +7,7 @@ namespace Budzet.EFData
     public class EFDataContext : DbContext
     {
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<AppTranzactionPrice> AppTranzactionPrices { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

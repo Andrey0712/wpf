@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,5 +18,6 @@ namespace Budzet.Domain
         public bool DebitKredit { get; set; }
         [StringLength(255)]
         public string Image { get; set; }
+        public virtual ICollection<AppTranzactionPrice> AppTranzactionPrices { get; set; }
     }
 }
