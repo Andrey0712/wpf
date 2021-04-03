@@ -5,23 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfBudzhet"
         mc:Ignorable="d"
-        Title="Окно изменения данных" Height="250" Width="400" Loaded="Window_Loaded">
+        Title="Окно изменения данных" Height="260" Width="550" >
     <Canvas Background="#FFD6B2B2">
         <Canvas.Resources>
             <Style TargetType="Button">
-                <Setter Property="Foreground" Value="Gold" />
+                <Setter Property="Foreground" Value="DarkRed" />
                 <Setter Property="BorderBrush" Value="Green" />
                 <Setter Property="Background" Value="DodgerBlue" />
                 <Setter Property="FontSize" Value="12" />
-                
+
             </Style>
             <Style TargetType="Label">
                 <Setter Property="Foreground" Value="Blue" />
-                
+
                 <Setter Property="FontSize" Value="12" />
             </Style>
             <Style TargetType="TextBox">
-                <Setter Property="Foreground" Value="Gold" />
+                <Setter Property="Foreground" Value="red" />
                 <Setter Property="BorderBrush" Value="Blue" />
                 <Setter Property="Background" Value="LightBlue" />
                 <Setter Property="FontSize" Value="12" />
@@ -35,11 +35,19 @@
                        Height="30" 
                        Width="200" />
             <TextBox x:Name="tbName" 
-                         HorizontalAlignment="Left" 
-                         Height="30" 
-                         TextWrapping="Wrap" 
-                         VerticalAlignment="Center" 
-                         Width="125" />
+                         Text="{Binding Name, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}"
+                    Width="158">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
         </WrapPanel>
         <WrapPanel Margin="5" Canvas.Left="9" Canvas.Top="40">
             <Label Content="Обновить информацию :" 
@@ -55,13 +63,34 @@
                          VerticalAlignment="Top" 
                          Width="200" />
         </WrapPanel>
+        <WrapPanel Margin="5" Canvas.Left="9" Canvas.Top="140">
 
+            <Label Content="Откорректируйте цену :" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="195" />
+            <TextBox x:Name="tbPrice" 
+                         Text="{Binding Price, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}"
+                    Width="158">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
+        </WrapPanel>
         <Button x:Name="Chang_foto" Width="120"
                         Content="Обновить фото" 
-                        Click="btnSelectImage_Click" Canvas.Left="32" Canvas.Top="163"/>
+                        Click="btnSelectImage_Click" Canvas.Left="32" Canvas.Top="190"/>
         <Button x:Name="Save_Changes" Width="149"
                         Content="Сохранить изменения" 
-                        Click="btnSaveChangs_Click" Canvas.Left="220" Canvas.Top="163"/>
+                        Click="btnSaveChangs_Click" Canvas.Left="220" Canvas.Top="190"/>
 
 
     </Canvas>

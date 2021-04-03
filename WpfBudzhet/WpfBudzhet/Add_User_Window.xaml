@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
          xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:WpfBudzhet"
-        mc:Ignorable="d"
-        Title="Додати нового кота" Height="434" Width="450" >
+        
+        Title="Додати нового кота" Height="434" Width="650" >
     <DockPanel Margin="10" Background="#FFD6B2B2">
         <DockPanel.Resources>
             <Style TargetType="Button">
@@ -28,7 +28,7 @@
                 <Setter Property="FontSize" Value="12" />
             </Style>
             <Style TargetType="TextBox">
-                <Setter Property="Foreground" Value="Gold" />
+                <Setter Property="Foreground" Value="Black" />
                 <Setter Property="BorderBrush" Value="Blue" />
                 <Setter Property="Background" Value="LightBlue" />
                 <Setter Property="FontSize" Value="12" />
@@ -46,7 +46,19 @@
                          Height="30" 
                          TextWrapping="Wrap" 
                          VerticalAlignment="Top" 
-                         Width="238"/>
+                         Width="200"
+                         Text="{Binding Name, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
             </WrapPanel>
 
             <WrapPanel Margin="5">
@@ -60,7 +72,19 @@
                          Height="30" 
                          TextWrapping="Wrap" 
                          VerticalAlignment="Top" 
-                         Width="238"/>
+                         Width="200"
+                         Text="{Binding Price, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
             </WrapPanel>
             <WrapPanel Margin="5">
                 <Label Content="Дата транзакции:" 
@@ -85,7 +109,19 @@
                          Height="90" 
                          TextWrapping="Wrap" 
                          VerticalAlignment="Top" 
-                         Width="238"/>
+                         Width="200"
+                         Text="{Binding Details, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnDataErrors=True}">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
             </WrapPanel>
             <WrapPanel Margin="5">
                 <Label Content="Дебит/Кредит:" 

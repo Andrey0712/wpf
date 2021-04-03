@@ -1,4 +1,5 @@
-﻿using Budzet.EFData;
+﻿using Budzet.Domain;
+using Budzet.EFData;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using UserBudzet.Application;
+using UserBudzet.Application.ViewModels;
 using Path = System.IO.Path;
 
 namespace WpfBudzhet
@@ -26,20 +28,20 @@ namespace WpfBudzhet
     {
         private readonly ObservableCollection<UserVM> _users;
         private EFDataContext _context = new EFDataContext();
+        private readonly UserViewModel user = new UserViewModel();
+        
         public static string New_FileName { get; set; }
         //public string Foto_dell { get; set; } = null;
 
         public Edit_User_Window(System.Collections.ObjectModel.ObservableCollection<UserBudzet.Application.UserVM> users)
         {
+            user.EnabledValidation = true;
+            DataContext = user;
             InitializeComponent();
             _users = users;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-            
-        }
+        
 
         private void btnSelectImage_Click(object sender, RoutedEventArgs e)
         {
@@ -53,15 +55,30 @@ namespace WpfBudzhet
 
         private void btnSaveChangs_Click(object sender, RoutedEventArgs e)
         {
+            
             var us = _context.Users.SingleOrDefault(p => p.Id == MainWindow.chang_User);
 
             if (!string.IsNullOrEmpty(this.tbName.Text))
             {
                 us.Name = tbName.Text;
+                
             }
             if (!string.IsNullOrEmpty(this.tbDetails.Text))
             {
                 us.Details = tbDetails.Text;
+                
+            }
+            if (!string.IsNullOrEmpty(this.tbPrice.Text))
+            {
+                us.AppTranzactionPrices = new List<AppTranzactionPrice>
+                    {
+                      new AppTranzactionPrice
+                      {
+                          Id=us.Id,
+                          DateCreate=DateTime.Now,
+                          Price=decimal.Parse(this.tbPrice.Text)
+                      }
+                };
             }
             if (!string.IsNullOrEmpty(New_FileName))
             {
@@ -71,24 +88,22 @@ namespace WpfBudzhet
                 var saveDir = Path.Combine(dir, "images");
                 if (!Directory.Exists(saveDir))
                     Directory.CreateDirectory(saveDir);
-                //if (!string.IsNullOrEmpty(us.Image))
-                //{
-                //    var dir_del = Path.Combine(Directory.GetCurrentDirectory(),
-                //        "images", us.Image);
-
-                //    //pbImage.Image = Image.FromStream(new MemoryStream(File.ReadAllBytes(dir)));
-                //    Foto_dell = dir_del;
-                //}
+                
                 var fileSave = Path.Combine(saveDir, imageName);
                 File.Copy(New_FileName, fileSave);
                 us.Image = fileSave;
             }
-            //if (File.Exists(Foto_dell))
-            //{
+            user.EnableValidation = true;
 
-            //    File.Delete(Foto_dell);
-            //}
-            _context.SaveChanges();
+            if (string.IsNullOrEmpty(user.Error))
+            {
+                MessageBox.Show("Bomba");
+               _context.SaveChanges();
+            }
+               
+            else
+                MessageBox.Show(user.Error);
+            
 
            
             this.Close();

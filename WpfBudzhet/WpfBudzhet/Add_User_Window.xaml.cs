@@ -71,15 +71,15 @@ namespace WpfBudzhet
                         Details = tbDetails.Text,
                         Image = fileSave
                     };
-            //cat.AppCatPrices = new List<AppCatPrice>
-            //{
-            //    new AppCatPrice
-            //    {
-            //        CatId = cat.Id,
-            //        DateCreate=DateTime.Now,
-            //        Price=decimal.Parse(tbPrice.Text)
-            //    }
-            //};
+            user.AppTranzactionPrices = new List<AppTranzactionPrice>
+            {
+                new AppTranzactionPrice
+                {
+                    UserId=user.Id,
+                            DateCreate=DateTime.Now,
+                          Price=decimal.Parse(this.tbPrice.Text)
+                }
+            };
             _context.Add(user);
             _context.SaveChanges();
 

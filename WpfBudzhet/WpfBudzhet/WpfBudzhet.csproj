@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UserBudzet.Application\UserBudzet.Application.csproj" />
   </ItemGroup>
 
