@@ -27,19 +27,27 @@ namespace UserBudzet.Application.Validators
 
         }
 
-        
 
         private static bool BeValidPrice(decimal price)
         {
             if (price > 0)
             {
-
-                //var regex = new Regex("^[+-]?[0-9]+(\\.[0-9]{2,4})$");
-                var regex = new Regex(@"^[-+]?\d*[0-9](|.\d*[0-9])(|,\d*[0-9])?$");
+                var regex = new Regex(@"\d");
                 return regex.IsMatch(price.ToString());
             }
             return false;
         }
+        //private static bool BeValidPrice(decimal price)
+        //{
+        //    if (price > 0)
+        //    {
+
+        //        //var regex = new Regex("^[+-]?[0-9]+(\\.[0-9]{2,4})$");
+        //        var regex = new Regex(@"^[-+]?\d*[0-9](|.\d*[0-9])(|,\d*[0-9])?$");
+        //        return regex.IsMatch(price.ToString());
+        //    }
+        //    return false;
+        //}
         private static bool BeAValidName(string name)
         {
             if (!string.IsNullOrEmpty(name))

@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using UserBudzet.Application;
+using UserBudzet.Application.ViewModels;
 using Path = System.IO.Path;
 
 namespace WpfBudzhet
@@ -27,12 +28,14 @@ namespace WpfBudzhet
     {
         private readonly ObservableCollection<UserVM> _users;
         private EFDataContext _context = new EFDataContext();
+        private readonly UserViewModel us = new UserViewModel();
         public string FileName { get; set; }
         private bool _debit_kredit { get; set; }
-        public Add_User_Window(System.Collections.ObjectModel.ObservableCollection<UserBudzet.Application.UserVM> users)
+        public Add_User_Window(ObservableCollection<UserVM> users)
         {
             InitializeComponent();
             _users = users;
+            us.EnableValidation = true;
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -53,7 +56,10 @@ namespace WpfBudzhet
 
         private void Save_User_Click(object sender, RoutedEventArgs e)
         {
-            var extension = Path.GetExtension(FileName);
+            us.EnableValidation = true;
+            if (string.IsNullOrEmpty(us.Error))
+            {
+                var extension = Path.GetExtension(FileName);
             var imageName = Path.GetRandomFileName() + extension;
             var dir = Directory.GetCurrentDirectory();
             var saveDir = Path.Combine(dir, "images");
@@ -93,6 +99,9 @@ namespace WpfBudzhet
 
             });
             this.Close();
+            }
+            else
+                MessageBox.Show(us.Error);
         }
     }
 }

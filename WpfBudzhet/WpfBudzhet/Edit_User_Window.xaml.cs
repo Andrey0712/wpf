@@ -28,15 +28,15 @@ namespace WpfBudzhet
     {
         private readonly ObservableCollection<UserVM> _users;
         private EFDataContext _context = new EFDataContext();
-        private readonly UserViewModel user = new UserViewModel();
+        private readonly UserViewModel us = new UserViewModel();
         
         public static string New_FileName { get; set; }
         //public string Foto_dell { get; set; } = null;
 
         public Edit_User_Window(System.Collections.ObjectModel.ObservableCollection<UserBudzet.Application.UserVM> users)
         {
-            user.EnabledValidation = true;
-            DataContext = user;
+            us.EnabledValidation = true;
+            DataContext = us;
             InitializeComponent();
             _users = users;
         }
@@ -56,29 +56,32 @@ namespace WpfBudzhet
         private void btnSaveChangs_Click(object sender, RoutedEventArgs e)
         {
             
-            var us = _context.Users.SingleOrDefault(p => p.Id == MainWindow.chang_User);
+            var usChangNew = _context.Users.SingleOrDefault(p => p.Id == MainWindow.chang_User);
 
             if (!string.IsNullOrEmpty(this.tbName.Text))
             {
-                us.Name = tbName.Text;
+                usChangNew.Name = tbName.Text;
                 
             }
             if (!string.IsNullOrEmpty(this.tbDetails.Text))
             {
-                us.Details = tbDetails.Text;
+                usChangNew.Details = tbDetails.Text;
                 
             }
+
             if (!string.IsNullOrEmpty(this.tbPrice.Text))
             {
-                us.AppTranzactionPrices = new List<AppTranzactionPrice>
+                usChangNew.AppTranzactionPrices = new List<AppTranzactionPrice>
                     {
                       new AppTranzactionPrice
                       {
-                          Id=us.Id,
+                          Id=usChangNew.Id,
                           DateCreate=DateTime.Now,
                           Price=decimal.Parse(this.tbPrice.Text)
                       }
                 };
+                _context.Add(usChangNew);
+
             }
             if (!string.IsNullOrEmpty(New_FileName))
             {
@@ -91,21 +94,24 @@ namespace WpfBudzhet
                 
                 var fileSave = Path.Combine(saveDir, imageName);
                 File.Copy(New_FileName, fileSave);
-                us.Image = fileSave;
+                usChangNew.Image = fileSave;
             }
-            user.EnableValidation = true;
 
-            if (string.IsNullOrEmpty(user.Error))
+
+            us.EnableValidation = true;
+
+            if (string.IsNullOrEmpty(us.Error))
             {
-                MessageBox.Show("Bomba");
-               _context.SaveChanges();
-            }
-               
-            else
-                MessageBox.Show(user.Error);
-            
+                _context.SaveChanges();
+                MessageBox.Show("Ура, пошло");
 
-           
+            }
+
+            else
+                MessageBox.Show(us.Error);
+
+
+
             this.Close();
 
         }
