@@ -35,7 +35,7 @@ namespace WpfBudzhet
 
         public Edit_User_Window(System.Collections.ObjectModel.ObservableCollection<UserBudzet.Application.UserVM> users)
         {
-            us.EnabledValidation = true;
+            us.EnabledValidation = false;
             DataContext = us;
             InitializeComponent();
             _users = users;
@@ -55,7 +55,7 @@ namespace WpfBudzhet
 
         private void btnSaveChangs_Click(object sender, RoutedEventArgs e)
         {
-            
+            us.EnableValidation = true;
             var usChangNew = _context.Users.SingleOrDefault(p => p.Id == MainWindow.chang_User);
 
             if (!string.IsNullOrEmpty(this.tbName.Text))
@@ -71,16 +71,14 @@ namespace WpfBudzhet
 
             if (!string.IsNullOrEmpty(this.tbPrice.Text))
             {
-                usChangNew.AppTranzactionPrices = new List<AppTranzactionPrice>
-                    {
-                      new AppTranzactionPrice
-                      {
-                          Id=usChangNew.Id,
-                          DateCreate=DateTime.Now,
-                          Price=decimal.Parse(this.tbPrice.Text)
-                      }
-                };
-                _context.Add(usChangNew);
+                this._context.AppTranzactionPrices.Add(new AppTranzactionPrice
+                {
+                    UserId = usChangNew.Id,
+                    DateCreate = DateTime.Now,
+                    Price = decimal.Parse(this.tbPrice.Text)
+                });
+                this._context.SaveChanges();
+               
 
             }
             if (!string.IsNullOrEmpty(New_FileName))
@@ -96,24 +94,21 @@ namespace WpfBudzhet
                 File.Copy(New_FileName, fileSave);
                 usChangNew.Image = fileSave;
             }
-
-
-            us.EnableValidation = true;
+                      
 
             if (string.IsNullOrEmpty(us.Error))
             {
-                _context.SaveChanges();
-                MessageBox.Show("Ура, пошло");
 
+                MessageBox.Show("Ура, пошло");
+                 _context.SaveChanges();
             }
 
             else
                 MessageBox.Show(us.Error);
 
-
-
             this.Close();
 
+                
         }
     }
 }

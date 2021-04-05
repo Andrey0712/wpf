@@ -35,7 +35,8 @@ namespace WpfBudzhet
         {
             InitializeComponent();
             _users = users;
-            us.EnableValidation = true;
+            DataContext = us;
+            us.EnableValidation = false;
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -56,9 +57,8 @@ namespace WpfBudzhet
 
         private void Save_User_Click(object sender, RoutedEventArgs e)
         {
-            us.EnableValidation = true;
-            if (string.IsNullOrEmpty(us.Error))
-            {
+            us.EnabledValidation = true;
+            
                 var extension = Path.GetExtension(FileName);
             var imageName = Path.GetRandomFileName() + extension;
             var dir = Directory.GetCurrentDirectory();
@@ -87,9 +87,21 @@ namespace WpfBudzhet
                 }
             };
             _context.Add(user);
-            _context.SaveChanges();
+ 
+               
 
-            _users.Add(new UserVM
+                if (string.IsNullOrEmpty(us.Error))
+                {
+
+                    MessageBox.Show("Ура, пошло");
+                    _context.SaveChanges();
+                }
+
+                else
+                    MessageBox.Show(us.Error);
+
+
+                _users.Add(new UserVM
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -98,10 +110,8 @@ namespace WpfBudzhet
                 Image = user.Image
 
             });
-            this.Close();
-            }
-            else
-                MessageBox.Show(us.Error);
+                this.Close();
+        
         }
     }
 }

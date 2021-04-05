@@ -4,10 +4,27 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Budzet.EFData.Migrations
 {
-    public partial class AddtblAppTranzactionPrice : Migration
+    public partial class Addtbl : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "tblUser",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Tranіaction = table.Column<DateTime>(nullable: false),
+                    Details = table.Column<string>(maxLength: 4000, nullable: false),
+                    DebitKredit = table.Column<bool>(nullable: false),
+                    Image = table.Column<string>(maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblUser", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "tblTranzactionPrices",
                 columns: table => new
@@ -39,6 +56,9 @@ namespace Budzet.EFData.Migrations
         {
             migrationBuilder.DropTable(
                 name: "tblTranzactionPrices");
+
+            migrationBuilder.DropTable(
+                name: "tblUser");
         }
     }
 }

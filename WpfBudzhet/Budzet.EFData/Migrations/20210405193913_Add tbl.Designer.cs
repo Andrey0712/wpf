@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Budzet.EFData.Migrations
 {
     [DbContext(typeof(EFDataContext))]
-    [Migration("20210402075934_Add tbl AppTranzactionPrice")]
-    partial class AddtblAppTranzactionPrice
+    [Migration("20210405193913_Add tbl")]
+    partial class Addtbl
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
