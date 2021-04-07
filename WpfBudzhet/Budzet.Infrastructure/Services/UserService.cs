@@ -1,0 +1,53 @@
+﻿using Budzet.Domain;
+using Budzet.EFData;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using UserBudzet.Application.Interfaces;
+
+namespace Budzet.Infrastructure.Services
+{
+       public class UserService : IUserService
+
+    { 
+        private readonly EFDataContext _context;
+        public UserService()
+        {
+            _context = new EFDataContext();
+        }
+        public int Count()//
+        {
+            return _context.Users.Count();
+        }
+        public void InsertUser(int count)
+        {
+            Stopwatch stopWatch = new Stopwatch();//cколько времени на добовление юзеров
+            stopWatch.Start();
+            for (int i = 0; i < count; i++)
+            {
+                AppUser appUser = new AppUser
+                {
+                    Name = "Name" + i,
+                    DebitKredit = true,
+                    Tranіaction = DateTime.Now.AddDays(i),
+                    Details = "qqqq",
+                    Image = "Fotka"
+                };
+                _context.Users.Add(appUser);
+                _context.SaveChanges();
+                Console.WriteLine("Insert cat "+ appUser.Id);
+            }
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;//считает тики и переводит в формат время
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Console.WriteLine("Затрачено времени на генерацию Юзеров: " + elapsedTime);
+        }
+    }
+}

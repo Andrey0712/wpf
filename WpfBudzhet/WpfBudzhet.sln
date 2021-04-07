@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfBudzhet", "WpfBudzhet\WpfBudzhet.csproj", "{C3A69C36-060F-4BEA-A68B-18638204E36B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfBudzhet", "WpfBudzhet\WpfBudzhet.csproj", "{C3A69C36-060F-4BEA-A68B-18638204E36B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budzet.Domain", "CatRenta.Domain\Budzet.Domain.csproj", "{89EAE291-CD93-43F6-A6E5-C7826ACC9728}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budzet.Domain", "CatRenta.Domain\Budzet.Domain.csproj", "{89EAE291-CD93-43F6-A6E5-C7826ACC9728}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budzet.EFData", "Budzet.EFData\Budzet.EFData.csproj", "{75BA7BF9-2160-4256-9C9A-232CAFD3FD8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budzet.EFData", "Budzet.EFData\Budzet.EFData.csproj", "{75BA7BF9-2160-4256-9C9A-232CAFD3FD8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBudzet.Application", "UserBudzet.Application\UserBudzet.Application.csproj", "{78D2DA15-082A-433C-9E81-966679F1FE4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserBudzet.Application", "UserBudzet.Application\UserBudzet.Application.csproj", "{78D2DA15-082A-433C-9E81-966679F1FE4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleExamplThread", "ConsoleExamplThread\ConsoleExamplThread.csproj", "{9D44406D-356B-43C7-87A4-B8339CB06F71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budzet.Infrastructure", "Budzet.Infrastructure\Budzet.Infrastructure.csproj", "{CBD54817-6623-4F4A-8DC5-0492FA2377AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{78D2DA15-082A-433C-9E81-966679F1FE4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78D2DA15-082A-433C-9E81-966679F1FE4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78D2DA15-082A-433C-9E81-966679F1FE4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D44406D-356B-43C7-87A4-B8339CB06F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D44406D-356B-43C7-87A4-B8339CB06F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D44406D-356B-43C7-87A4-B8339CB06F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D44406D-356B-43C7-87A4-B8339CB06F71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBD54817-6623-4F4A-8DC5-0492FA2377AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBD54817-6623-4F4A-8DC5-0492FA2377AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBD54817-6623-4F4A-8DC5-0492FA2377AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBD54817-6623-4F4A-8DC5-0492FA2377AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
