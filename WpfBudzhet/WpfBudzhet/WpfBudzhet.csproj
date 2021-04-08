@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Budzet.Infrastructure\Budzet.Infrastructure.csproj" />
     <ProjectReference Include="..\UserBudzet.Application\UserBudzet.Application.csproj" />
   </ItemGroup>
 

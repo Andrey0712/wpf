@@ -17,6 +17,9 @@ namespace Budzet.Infrastructure.Services
         {
             _context = new EFDataContext();
         }
+
+        public event InsertUserDelegate EventInsertItem ;
+
         public int Count()//
         {
             return _context.Users.Count();
@@ -37,6 +40,9 @@ namespace Budzet.Infrastructure.Services
                 };
                 _context.Users.Add(appUser);
                 _context.SaveChanges();
+                if (EventInsertItem != null)
+                    EventInsertItem(i + 1);// тоже самое в 45 стр
+                //EventInsertItem?.Invoke(i + 1);
                 Console.WriteLine("Insert cat "+ appUser.Id);
             }
             stopWatch.Stop();

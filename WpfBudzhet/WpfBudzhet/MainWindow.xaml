@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <DockPanel Margin="10" Background="#FFD6B2B2">
-        <StackPanel DockPanel.Dock="Right" Margin="10,0,0,0" Width="150">
+        <StackPanel DockPanel.Dock="Right" Margin="10,0,0,0" Width="200">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Foreground" Value="Gold" />
@@ -20,6 +20,8 @@
             <Button x:Name="btnEdt" Content="Редактировать" Margin="0,5" Click="btnEdt_Click"/>
             <Button x:Name="btnDell" Content="Удалить"  Margin="0,0,0,0.5" Click="btnDell_Click"/>
             <Button x:Name="btnUpdate" Content="Обновить базу"  Margin="0,5" Click="btnUpdate_Click"/>
+            <Button x:Name="btnAddRange" Content="Добавить юзеров"  Margin="0,5" Click="btnAddRange_Click"/>
+            <Button x:Name="btnCancel" Content="Остановить добавление"  Margin="0,5" Click="btnCancelAddRange_Click"/>
         </StackPanel>
         <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0" Background="Pink">
             <DataGrid.Resources>

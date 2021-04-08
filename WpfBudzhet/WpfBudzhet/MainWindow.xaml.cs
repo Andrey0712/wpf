@@ -1,9 +1,12 @@
 ﻿using Budzet.EFData;
+using Budzet.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UserBudzet.Application;
+using UserBudzet.Application.Interfaces;
 
 namespace WpfBudzhet
 {
@@ -26,6 +30,7 @@ namespace WpfBudzhet
         public static int chang_User;
         private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();
         private EFDataContext _context = new EFDataContext();
+        bool abort = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -56,8 +61,62 @@ namespace WpfBudzhet
             Window_Loaded(sender, e);
         }
 
-        
-        private void btnDell_Click(object sender, RoutedEventArgs e)
+        private void btnAddRange_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+            //ShowMessage();
+            btnAddRange.IsEnabled = false;
+            Thread thread = new Thread(ShowMessage);
+            thread.Start();
+        }
+        private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
+        {
+            //ShowMessage();
+            abort = true;
+        }
+        private void ShowMessage()
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                btnAddRange.IsEnabled = false;
+            }));
+            IUserService userService = new UserService();
+            userService.EventInsertItem += UpdateUIAsync;
+            userService.InsertUser(20);
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    if (abort)
+            //    {
+            //        Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
+            //        new Action(() =>//Создается делегат что указывает на анонимный метод
+            //        {
+            //            btnAddRange.IsEnabled = true;
+
+            //        }));
+
+            //        abort = false;
+            //        break;
+            //    }
+            //    Thread.Sleep(200);
+            //    Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
+            //        new Action(() =>//Создается делегат что указывает на анонимный метод
+            //        {
+            //            UpdateUIAsync(i+1);
+            //        }));
+
+            //}
+        }
+         void UpdateUIAsync(int i)
+        {
+            Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
+                    new Action(() =>//Создается делегат что указывает на анонимный метод
+                    {
+                        btnAddRange.Content = $"{i}";
+                        Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+                    }));
+        }
+            private void btnDell_Click(object sender, RoutedEventArgs e)
         {
             if (dgSimple.SelectedItem != null)
             {
