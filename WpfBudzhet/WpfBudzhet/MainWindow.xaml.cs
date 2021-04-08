@@ -22,6 +22,7 @@ using UserBudzet.Application.Interfaces;
 
 namespace WpfBudzhet
 {
+    delegate void UpdateProgressBarDelegate(DependencyProperty dp, object value);
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -30,7 +31,8 @@ namespace WpfBudzhet
         public static int chang_User;
         private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();
         private EFDataContext _context = new EFDataContext();
-        private Thread thread = null;
+        private Thread thread1 = null;
+        public static int newUsers;
         //bool abort = false;
         public MainWindow()
         {
@@ -39,10 +41,12 @@ namespace WpfBudzhet
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+        { 
+            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
             var list = _context.Users.Select(x => new UserVM()
             {
-                Id=x.Id,
+                
+            Id =x.Id,
                 Name = x.Name,
                 Tranіaction = x.Tranіaction,
                 Details = x.Details,
@@ -53,6 +57,8 @@ namespace WpfBudzhet
             }).ToList();
             _users = new ObservableCollection<UserVM>(list);
             dgSimple.ItemsSource = _users;
+            //int addUsers = int.Parse(txtNewUsers.Text);
+            //newUsers = addUsers;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -67,37 +73,32 @@ namespace WpfBudzhet
             Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
             //ShowMessage();
             btnAddRange.IsEnabled = false;
-            thread = new Thread(ShowMessage);
-            thread.Start();
+            thread1 = new Thread(ShowMessage);
+            thread1.Start();
         }
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
-        {
+        { 
+            btnAddRange.IsEnabled = true;
             //ShowMessage();
-             thread.Abort();
+             thread1.Abort();
             //abort = true;
+           
         }
+
+        
         private void ShowMessage()
         {
-            try
-            {
-                while (true)
-                {
-                    Dispatcher.Invoke(new Action(() =>
+           
+            Dispatcher.Invoke(new Action(() =>
                     {
-                btnAddRange.IsEnabled = false;
+                           btnAddRange.IsEnabled = false;
+                       
                      }));
-                    IUserService userService = new UserService();
-                    userService.EventInsertItem += UpdateUIAsync;
-                    userService.InsertUser(20);
-
-                }
-            }
-            catch (ThreadAbortException abortException)
-            {
-                Console.WriteLine((string)abortException.ExceptionState);
-            }
-        
             
+            IUserService userService = new UserService();
+                    userService.EventInsertItem += UpdateUIAsync;
+                    //userService.InsertUser(int.Parse(txtNewUsers.Text));
+            userService.InsertUser(100);
 
             //for (int i = 0; i < 10; i++)
             //{
@@ -124,12 +125,17 @@ namespace WpfBudzhet
         }
          void UpdateUIAsync(int i)
         {
+            UpdateProgressBarDelegate updProgress = new UpdateProgressBarDelegate(pbZagruzka.SetValue);
+            double value = 0;
             Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
                     new Action(() =>//Создается делегат что указывает на анонимный метод
                     {
                         btnAddRange.Content = $"{i}";
                         Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+                        
                     }));
+            Dispatcher.Invoke(updProgress, new object[] { ProgressBar.ValueProperty, ++value });
+
         }
             private void btnDell_Click(object sender, RoutedEventArgs e)
         {
@@ -172,5 +178,7 @@ namespace WpfBudzhet
         {
             Window_Loaded(sender, e);
         }
+
+        
     }
 }
