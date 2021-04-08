@@ -30,7 +30,8 @@ namespace WpfBudzhet
         public static int chang_User;
         private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();
         private EFDataContext _context = new EFDataContext();
-        bool abort = false;
+        private Thread thread = null;
+        //bool abort = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -66,23 +67,37 @@ namespace WpfBudzhet
             Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
             //ShowMessage();
             btnAddRange.IsEnabled = false;
-            Thread thread = new Thread(ShowMessage);
+            thread = new Thread(ShowMessage);
             thread.Start();
         }
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         {
             //ShowMessage();
-            abort = true;
+             thread.Abort();
+            //abort = true;
         }
         private void ShowMessage()
         {
-            Dispatcher.Invoke(new Action(() =>
+            try
             {
+                while (true)
+                {
+                    Dispatcher.Invoke(new Action(() =>
+                    {
                 btnAddRange.IsEnabled = false;
-            }));
-            IUserService userService = new UserService();
-            userService.EventInsertItem += UpdateUIAsync;
-            userService.InsertUser(20);
+                     }));
+                    IUserService userService = new UserService();
+                    userService.EventInsertItem += UpdateUIAsync;
+                    userService.InsertUser(20);
+
+                }
+            }
+            catch (ThreadAbortException abortException)
+            {
+                Console.WriteLine((string)abortException.ExceptionState);
+            }
+        
+            
 
             //for (int i = 0; i < 10; i++)
             //{
