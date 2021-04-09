@@ -3,6 +3,7 @@ using Budzet.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -32,8 +33,9 @@ namespace WpfBudzhet
         private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();
         private EFDataContext _context = new EFDataContext();
         private Thread thread1 = null;
+        private BackgroundWorker worker = null;
         public static int newUsers;
-        //bool abort = false;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -57,8 +59,7 @@ namespace WpfBudzhet
             }).ToList();
             _users = new ObservableCollection<UserVM>(list);
             dgSimple.ItemsSource = _users;
-            //int addUsers = int.Parse(txtNewUsers.Text);
-            //newUsers = addUsers;
+            
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -67,77 +68,7 @@ namespace WpfBudzhet
             addUser.Show();
             Window_Loaded(sender, e);
         }
-
-        private void btnAddRange_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
-            //ShowMessage();
-            btnAddRange.IsEnabled = false;
-            thread1 = new Thread(ShowMessage);
-            thread1.Start();
-        }
-        private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
-        { 
-            btnAddRange.IsEnabled = true;
-            //ShowMessage();
-             thread1.Abort();
-            //abort = true;
-           
-        }
-
-        
-        private void ShowMessage()
-        {
-           
-            Dispatcher.Invoke(new Action(() =>
-                    {
-                           btnAddRange.IsEnabled = false;
-                       
-                     }));
-            
-            IUserService userService = new UserService();
-                    userService.EventInsertItem += UpdateUIAsync;
-                    //userService.InsertUser(int.Parse(txtNewUsers.Text));
-            userService.InsertUser(100);
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    if (abort)
-            //    {
-            //        Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
-            //        new Action(() =>//Создается делегат что указывает на анонимный метод
-            //        {
-            //            btnAddRange.IsEnabled = true;
-
-            //        }));
-
-            //        abort = false;
-            //        break;
-            //    }
-            //    Thread.Sleep(200);
-            //    Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
-            //        new Action(() =>//Создается делегат что указывает на анонимный метод
-            //        {
-            //            UpdateUIAsync(i+1);
-            //        }));
-
-            //}
-        }
-         void UpdateUIAsync(int i)
-        {
-            UpdateProgressBarDelegate updProgress = new UpdateProgressBarDelegate(pbZagruzka.SetValue);
-            double value = 0;
-            Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
-                    new Action(() =>//Создается делегат что указывает на анонимный метод
-                    {
-                        btnAddRange.Content = $"{i}";
-                        Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
-                        
-                    }));
-            Dispatcher.Invoke(updProgress, new object[] { ProgressBar.ValueProperty, ++value });
-
-        }
-            private void btnDell_Click(object sender, RoutedEventArgs e)
+        private void btnDell_Click(object sender, RoutedEventArgs e)
         {
             if (dgSimple.SelectedItem != null)
             {
@@ -152,8 +83,6 @@ namespace WpfBudzhet
             }
             Window_Loaded(sender, e);
         }
-
-        
         private void btnEdt_Click(object sender, RoutedEventArgs e)
         {
             if (dgSimple.SelectedItem != null)
@@ -173,12 +102,126 @@ namespace WpfBudzhet
                 }
             }
         }
-
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Window_Loaded(sender, e);
         }
 
-        
+        /// <summary>
+        /// ВАРИАНТ РАБОТЫ С Thread с https://habr.com/ru/sandbox/38787/ не коректно обновляет ProgressBar но класно добавляет юзеров 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        #region Thread
+        private void btnAddRange_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+            newUsers = int.Parse(txtNewUsers.Text);
+            btnAddRange.IsEnabled = false;
+            thread1 = new Thread(ShowMessage);
+            thread1.Start();
+        }
+        private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
+        {
+            btnAddRange.IsEnabled = true;
+
+            thread1.Abort();
+
+
+        }
+
+
+        private void ShowMessage()
+        {
+
+            Dispatcher.Invoke(new Action(() =>
+                    {
+                        btnAddRange.IsEnabled = false;
+
+                    }));
+
+            IUserService userService = new UserService();
+            userService.EventInsertItem += UpdateUIAsync;
+            //userService.InsertUser(int.Parse(txtNewUsers.Text));
+            userService.InsertUser(newUsers);
+
+
+        }
+        void UpdateUIAsync(int i)
+        {
+            UpdateProgressBarDelegate updProgress = new UpdateProgressBarDelegate(pbZagruzka.SetValue);
+            double value = 0;
+            Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
+                    new Action(() =>//Создается делегат что указывает на анонимный метод
+                    {
+                        btnAddRange.Content = $"{i}";
+                        Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+
+                    }));
+            Dispatcher.Invoke(updProgress, new object[] { ProgressBar.ValueProperty, ++value });
+
+        }
+        #endregion
+
+
+
+
+        /// <summary>
+        /// ВАРИАНТ РАБОТЫ С BackgroundWorker с https://www.wpf-tutorial.com/ не коректно добавляет юзеров но класно обновляет ProgressBar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        #region BackgroundWorker
+        //private void btnAddRange_Click(object sender, RoutedEventArgs e)
+        //{
+        //    pbZagruzka.Value = 0;
+        //    worker = new BackgroundWorker();
+        //    newUsers = int.Parse(txtNewUsers.Text);
+        //    worker.WorkerReportsProgress = true;
+        //    worker.DoWork += worker_DoWork;
+        //    worker.ProgressChanged += worker_ProgressChanged;
+
+        //    worker.RunWorkerAsync();
+        //}
+
+
+        //private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (worker.IsBusy)
+        //    {
+        //        worker.CancelAsync();
+        //        pbZagruzka.Value = 0;
+        //    }
+        //}
+        ////тут чето не то
+        //private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    pbZagruzka.Value = e.ProgressPercentage;
+        //}
+
+        //private void worker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    IUserService userService = new UserService();
+
+        //    for (int i = 1; i <= newUsers; i++)
+        //    {
+
+        //        if (worker.CancellationPending)
+        //        {
+        //            e.Cancel = true;
+        //            break;
+        //        }
+
+        //        userService.InsertUser(i);
+        //        (sender as BackgroundWorker).ReportProgress(Convert.ToInt32((double)i * 100 / newUsers));
+
+        //    }
+        //}
+        #endregion
+
+
+
     }
 }

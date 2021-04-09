@@ -43,7 +43,7 @@ namespace Budzet.Infrastructure.Services
                 if (EventInsertItem != null)
                     EventInsertItem(i + 1);// тоже самое в 45 стр
                 //EventInsertItem?.Invoke(i + 1);
-                Console.WriteLine("Insert cat "+ appUser.Id);
+                Console.WriteLine("Insert user "+ appUser.Id);
             }
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
