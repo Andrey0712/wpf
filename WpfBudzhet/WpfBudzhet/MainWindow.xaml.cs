@@ -35,11 +35,12 @@ namespace WpfBudzhet
         private Thread thread1 = null;
         private BackgroundWorker worker = null;
         public static int newUsers;
-        
+        //private static AutoResetEvent waitHandle = new AutoResetEvent(false);
         public MainWindow()
         {
             InitializeComponent();
             Seed.SeedUser(_context);
+            //waitHandle.WaitOne();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -121,13 +122,14 @@ namespace WpfBudzhet
             btnAddRange.IsEnabled = false;
             thread1 = new Thread(ShowMessage);
             thread1.Start();
+            //waitHandle.Set();
         }
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         {
             btnAddRange.IsEnabled = true;
 
             thread1.Abort();
-
+            //waitHandle.Set();
 
         }
 

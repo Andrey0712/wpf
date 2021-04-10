@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Troelson", "Troelson\Troelson.csproj", "{101080B7-3E86-48A0-AC8A-4A24E97AACF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncCallbackDelegate", "ConsoleApp1\AsyncCallbackDelegate.csproj", "{E8D4C8B0-FD4E-4CED-A223-4EF168C2B9AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleThread", "ConsoleThread\ConsoleThread.csproj", "{AF5F2EC6-9011-417E-9ADE-35FF9756B434}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleMultiThreadApp", "SimpleMultiThreadApp\SimpleMultiThreadApp.csproj", "{F25E995F-A8B8-40A9-88F6-9FFC4847EF41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddWithThreads", "AddWithThreads\AddWithThreads.csproj", "{F81DEA3E-1679-4344-89D1-CD77A04D390C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiThreadedPrinting", "MultiThreadedPrinting\MultiThreadedPrinting.csproj", "{32057F93-594D-4726-A5D9-29B251207543}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataParallelismWithForEach", "DataParallelismWithForEach\DataParallelismWithForEach.csproj", "{1073F865-A95D-498A-95D1-F0465FCAE1AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyEBookReader", "MyEBookReader\MyEBookReader.csproj", "{95BD9BE8-193C-42C9-8810-8F98936CE429}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{101080B7-3E86-48A0-AC8A-4A24E97AACF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{101080B7-3E86-48A0-AC8A-4A24E97AACF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{101080B7-3E86-48A0-AC8A-4A24E97AACF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{101080B7-3E86-48A0-AC8A-4A24E97AACF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8D4C8B0-FD4E-4CED-A223-4EF168C2B9AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8D4C8B0-FD4E-4CED-A223-4EF168C2B9AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8D4C8B0-FD4E-4CED-A223-4EF168C2B9AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8D4C8B0-FD4E-4CED-A223-4EF168C2B9AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF5F2EC6-9011-417E-9ADE-35FF9756B434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF5F2EC6-9011-417E-9ADE-35FF9756B434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF5F2EC6-9011-417E-9ADE-35FF9756B434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF5F2EC6-9011-417E-9ADE-35FF9756B434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F25E995F-A8B8-40A9-88F6-9FFC4847EF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F25E995F-A8B8-40A9-88F6-9FFC4847EF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F25E995F-A8B8-40A9-88F6-9FFC4847EF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F25E995F-A8B8-40A9-88F6-9FFC4847EF41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F81DEA3E-1679-4344-89D1-CD77A04D390C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81DEA3E-1679-4344-89D1-CD77A04D390C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81DEA3E-1679-4344-89D1-CD77A04D390C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81DEA3E-1679-4344-89D1-CD77A04D390C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32057F93-594D-4726-A5D9-29B251207543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32057F93-594D-4726-A5D9-29B251207543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32057F93-594D-4726-A5D9-29B251207543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32057F93-594D-4726-A5D9-29B251207543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1073F865-A95D-498A-95D1-F0465FCAE1AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1073F865-A95D-498A-95D1-F0465FCAE1AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1073F865-A95D-498A-95D1-F0465FCAE1AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1073F865-A95D-498A-95D1-F0465FCAE1AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95BD9BE8-193C-42C9-8810-8F98936CE429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95BD9BE8-193C-42C9-8810-8F98936CE429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95BD9BE8-193C-42C9-8810-8F98936CE429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95BD9BE8-193C-42C9-8810-8F98936CE429}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E22F757C-A931-4BA2-B5DF-43754E814E49}
+	EndGlobalSection
+EndGlobal
