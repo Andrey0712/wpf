@@ -106,6 +106,7 @@ namespace WpfBudzhet
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Window_Loaded(sender, e);
+            btnAddRange.IsEnabled = true;
         }
 
         /// <summary>
@@ -122,6 +123,9 @@ namespace WpfBudzhet
             btnAddRange.IsEnabled = false;
             thread1 = new Thread(ShowMessage);
             thread1.Start();
+            //if (thread1.IsAlive) { btnAddRange.IsEnabled = true;};
+            
+
             //waitHandle.Set();
         }
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
@@ -147,7 +151,7 @@ namespace WpfBudzhet
             userService.EventInsertItem += UpdateUIAsync;
             //userService.InsertUser(int.Parse(txtNewUsers.Text));
             userService.InsertUser(newUsers);
-
+            
 
         }
         void UpdateUIAsync(int i)
@@ -162,7 +166,7 @@ namespace WpfBudzhet
 
                     }));
             Dispatcher.Invoke(updProgress, new object[] { ProgressBar.ValueProperty, ++value });
-
+            
         }
         #endregion
 
