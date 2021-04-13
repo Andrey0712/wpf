@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using UserBudzet.Application.Interfaces;
 
 namespace Budzet.Infrastructure.Services
@@ -54,6 +55,11 @@ namespace Budzet.Infrastructure.Services
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
             Console.WriteLine("Затрачено времени на генерацию Юзеров: " + elapsedTime);
+        }
+
+        public Task InsertUserAsync(int count)
+        {
+            return Task.Run(()=> InsertUser(count));
         }
     }
 }

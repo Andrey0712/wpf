@@ -39,8 +39,65 @@ namespace WpfBudzhet
         public MainWindow()
         {
             InitializeComponent();
+            //Seed.SeedUser(_context);
+
+            //lblInfoStatus.Text = "Підключаємося до БД-----";
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             Seed.SeedUser(_context);
-            
+
+            //await Task.Run(() =>
+            //{
+            //    _context.Cats.Count(); //jніціалуємо підклчюення
+            //});
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Debug.WriteLine("Сідер 1 закінчив свою роботу: " + elapsedTime);
+            //lblCursorPosition.Text = elapsedTime;
+           // lblInfoStatus.Text = "Підключення до БД успішно";
+
+            //await DataSeed.SeedDataAsync(_context);
+
+            //stopWatch = new Stopwatch();
+            //stopWatch.Start();
+            //var list = _context.Cats.AsQueryable()//.AsParallel()
+            //    .Select(x => new CatVM()
+            //    {
+            //        Name = x.Name,
+            //        Birthday = x.Birthday,
+            //        Details = x.Details,
+            //        ImageUrl = x.Image,
+            //        Price = x.AppCatPrices
+            //            .OrderByDescending(x => x.DateCreate)
+            //            .FirstOrDefault().Price
+            //    })
+            //    .OrderBy(x => x.Name)
+            //    .Skip(0)
+            //    .Take(20)
+            //    .ToList();
+
+            //stopWatch.Stop();
+            //// Get the elapsed time as a TimeSpan value.
+            //ts = stopWatch.Elapsed;
+
+            //// Format and display the TimeSpan value.
+            //elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            //    ts.Hours, ts.Minutes, ts.Seconds,
+            //    ts.Milliseconds / 10);
+            ////Debug.WriteLine("Сідер 1 закінчив свою роботу: " + elapsedTime);
+            //lblCursorPosition.Text = elapsedTime;
+            //lblInfoStatus.Text = "Читання даних із БД успішно";
+
+            //_cats = new ObservableCollection<CatVM>(list);
+            //dgSimple.ItemsSource = _cats;
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -106,7 +163,7 @@ namespace WpfBudzhet
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Window_Loaded(sender, e);
-            btnAddRange.IsEnabled = true;
+           
         }
 
         /// <summary>
@@ -116,33 +173,90 @@ namespace WpfBudzhet
         /// <param name="e"></param>
 
         #region Thread
-        private void btnAddRange_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
-            newUsers = int.Parse(txtNewUsers.Text);
-            pbZagruzka.Maximum = 100;
-            btnAddRange.IsEnabled = false;
-            thread1 = new Thread(ShowMessage);
-            thread1.Start();
+        //private void btnAddRange_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+        //    newUsers = int.Parse(txtNewUsers.Text);
+        //    pbZagruzka.Maximum = 100;
+        //    btnAddRange.IsEnabled = false;
+        //    thread1 = new Thread(ShowMessage);
+        //    thread1.Start();
             
-        }
-        private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
+        //}
+        //private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
+        //{
+        //    btnAddRange.IsEnabled = true;
+
+        //    thread1.Abort();
+            
+        //}
+
+
+        //private void ShowMessage()
+        //{
+
+        //    Dispatcher.Invoke(new Action(() =>
+        //            {
+        //                btnAddRange.IsEnabled = false;
+
+        //            }));
+
+        //    IUserService userService = new UserService();
+        //    userService.EventInsertItem += UpdateUIAsync;
+        //    userService.InsertUser(newUsers);
+        //    Dispatcher.Invoke(new Action(() =>
+        //    {
+        //        btnAddRange.IsEnabled = true;
+        //        btnAddRange.Content = "Добавить ЮЗЕРОВ";
+
+        //    }));
+
+        //}
+        //void UpdateUIAsync(int i)
+        //{
+            
+           
+        //    Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
+        //            new Action(() =>//Создается делегат что указывает на анонимный метод
+        //            {
+        //                btnAddRange.Content = $"{i}";
+        //                pbZagruzka.Value = Convert.ToInt32((double)i * 100 / newUsers);
+        //                Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+
+        //            }));
+            
+            
+        //}
+        #endregion
+
+        #region Task
+        private async void btnAddRange_Click(object sender, RoutedEventArgs e)
         {
+            //Action action = ShowMessage;
+            //Task task = new Task(action);
+            //Task task = new Task(()=> ShowMessage());//тоже самое через анонимный метод action
+            //task.Start();
+            //Task.Run(() => ShowMessage()); //тоже самое через анонимный метод
+
+            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);//в дебагесмотрим какой поток 
+            newUsers = int.Parse(txtNewUsers.Text);//кол-во добавляемых юзеров
+            pbZagruzka.Maximum = 100;// 100% прогресбар
+            btnAddRange.IsEnabled = false;//деактивируем кнопку пока грузим юзеров
+            IUserService userService = new UserService();
+            userService.EventInsertItem += UpdateUIAsync;
+            await userService.InsertUserAsync(newUsers);
             btnAddRange.IsEnabled = true;
 
-            thread1.Abort();
-            
         }
-
-
+        
         private void ShowMessage()
         {
 
             Dispatcher.Invoke(new Action(() =>
-                    {
-                        btnAddRange.IsEnabled = false;
+            {
+                btnAddRange.IsEnabled = false;
 
-                    }));
+            }));
 
             IUserService userService = new UserService();
             userService.EventInsertItem += UpdateUIAsync;
@@ -155,10 +269,17 @@ namespace WpfBudzhet
             }));
 
         }
+        private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
+        {
+            btnAddRange.IsEnabled = true;
+
+            thread1.Abort();
+
+        }
         void UpdateUIAsync(int i)
         {
-            
-           
+
+
             Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
                     new Action(() =>//Создается делегат что указывает на анонимный метод
                     {
@@ -167,12 +288,10 @@ namespace WpfBudzhet
                         Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
 
                     }));
-            
-            
+
+
         }
         #endregion
-
-
 
 
         /// <summary>

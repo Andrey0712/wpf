@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace UserBudzet.Application.Interfaces
 {
@@ -10,5 +11,7 @@ namespace UserBudzet.Application.Interfaces
         event InsertUserDelegate EventInsertItem;//вызывается при добавлении елемента
         int Count();//подсчет юзеров в базе
         void InsertUser(int count);//+юзеры
+
+        Task InsertUserAsync(int count);
     }
 }
