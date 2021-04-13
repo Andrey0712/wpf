@@ -35,12 +35,12 @@ namespace WpfBudzhet
         private Thread thread1 = null;
         private BackgroundWorker worker = null;
         public static int newUsers;
-        //private static AutoResetEvent waitHandle = new AutoResetEvent(false);
+        
         public MainWindow()
         {
             InitializeComponent();
             Seed.SeedUser(_context);
-            //waitHandle.WaitOne();
+            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -110,7 +110,7 @@ namespace WpfBudzhet
         }
 
         /// <summary>
-        /// ВАРИАНТ РАБОТЫ С Thread с https://habr.com/ru/sandbox/38787/ не коректно обновляет ProgressBar но класно добавляет юзеров 
+        /// ВАРИАНТ РАБОТЫ С Thread  
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -120,21 +120,18 @@ namespace WpfBudzhet
         {
             Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
             newUsers = int.Parse(txtNewUsers.Text);
+            pbZagruzka.Maximum = 100;
             btnAddRange.IsEnabled = false;
             thread1 = new Thread(ShowMessage);
             thread1.Start();
-            //if (thread1.IsAlive) { btnAddRange.IsEnabled = true;};
             
-
-            //waitHandle.Set();
         }
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         {
             btnAddRange.IsEnabled = true;
 
             thread1.Abort();
-            //waitHandle.Set();
-
+            
         }
 
 
@@ -149,23 +146,28 @@ namespace WpfBudzhet
 
             IUserService userService = new UserService();
             userService.EventInsertItem += UpdateUIAsync;
-            //userService.InsertUser(int.Parse(txtNewUsers.Text));
             userService.InsertUser(newUsers);
-            
+            Dispatcher.Invoke(new Action(() =>
+            {
+                btnAddRange.IsEnabled = true;
+                btnAddRange.Content = "Добавить ЮЗЕРОВ";
+
+            }));
 
         }
         void UpdateUIAsync(int i)
         {
-            UpdateProgressBarDelegate updProgress = new UpdateProgressBarDelegate(pbZagruzka.SetValue);
-            double value = 0;
+            
+           
             Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
                     new Action(() =>//Создается делегат что указывает на анонимный метод
                     {
                         btnAddRange.Content = $"{i}";
+                        pbZagruzka.Value = Convert.ToInt32((double)i * 100 / newUsers);
                         Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
 
                     }));
-            Dispatcher.Invoke(updProgress, new object[] { ProgressBar.ValueProperty, ++value });
+            
             
         }
         #endregion
