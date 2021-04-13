@@ -34,6 +34,34 @@
             </Grid>
             <Button x:Name="btnCancel" Content="Остановить добавление"  Margin="0,5" Click="btnCancelAddRange_Click"/>
         </StackPanel>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <TextBlock Name="lblCursorPosition"  />
+            </StatusBarItem>
+            <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Name = "lblInfoStatus"  Text=" " />
+            </StatusBarItem>
+            <Separator Grid.Column="3" />
+            <StatusBarItem Grid.Column="4">
+                <ProgressBar Name="pbCats" Value="0" Width="90" Height="16" />
+            </StatusBarItem>
+        </StatusBar>
+
         <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0" Background="Pink">
             <DataGrid.Resources>
                 <Style TargetType="DataGrid">
@@ -90,5 +118,6 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        
     </DockPanel>
 </Window>

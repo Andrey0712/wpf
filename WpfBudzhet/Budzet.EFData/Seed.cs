@@ -3,15 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Budzet.EFData
 {
     public class Seed
     {
+        public static Task SeedDataAsync(EFDataContext context)
+        {
+            return Task.Run(() => SeedUser(context));
+
+        }
         public static void SeedUser(EFDataContext context)
         {
-            if (!context.Users.Any())
-            {
+            
                 if (!context.Users.Any())
                 {
                     var cats = new List<AppUser>
@@ -69,7 +74,7 @@ namespace Budzet.EFData
                 }
 
 
-            }
+            
         }
        
     }

@@ -35,21 +35,28 @@ namespace WpfBudzhet
         private Thread thread1 = null;
         private BackgroundWorker worker = null;
         public static int newUsers;
-        
+        IUserService userService = new UserService();
+
         public MainWindow()
         {
             InitializeComponent();
+            userService.EventInsertItem += UpdateUIAsync;
             //Seed.SeedUser(_context);
 
-            //lblInfoStatus.Text = "Підключаємося до БД-----";
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            Seed.SeedUser(_context);
+            
 
-            //await Task.Run(() =>
-            //{
-            //    _context.Cats.Count(); //jніціалуємо підклчюення
-            //});
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblInfoStatus.Text = "Підключаємося до БД-----";
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();//подсчет времени инициализация подключения
+
+            await Task.Run(() =>
+            {
+                _context.Users.Count(); //инициализация подключения
+            });
 
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
@@ -59,50 +66,15 @@ namespace WpfBudzhet
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
-            Debug.WriteLine("Сідер 1 закінчив свою роботу: " + elapsedTime);
-            //lblCursorPosition.Text = elapsedTime;
-           // lblInfoStatus.Text = "Підключення до БД успішно";
+            //Debug.WriteLine("Сідер 1 закінчив свою роботу: " + elapsedTime);
+            lblCursorPosition.Text = elapsedTime;//время подключения
+            lblInfoStatus.Text = "Підключення до БД успішно";
 
-            //await DataSeed.SeedDataAsync(_context);
+            await Seed.SeedDataAsync(_context);
 
-            //stopWatch = new Stopwatch();
-            //stopWatch.Start();
-            //var list = _context.Cats.AsQueryable()//.AsParallel()
-            //    .Select(x => new CatVM()
-            //    {
-            //        Name = x.Name,
-            //        Birthday = x.Birthday,
-            //        Details = x.Details,
-            //        ImageUrl = x.Image,
-            //        Price = x.AppCatPrices
-            //            .OrderByDescending(x => x.DateCreate)
-            //            .FirstOrDefault().Price
-            //    })
-            //    .OrderBy(x => x.Name)
-            //    .Skip(0)
-            //    .Take(20)
-            //    .ToList();
-
-            //stopWatch.Stop();
-            //// Get the elapsed time as a TimeSpan value.
-            //ts = stopWatch.Elapsed;
-
-            //// Format and display the TimeSpan value.
-            //elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-            //    ts.Hours, ts.Minutes, ts.Seconds,
-            //    ts.Milliseconds / 10);
-            ////Debug.WriteLine("Сідер 1 закінчив свою роботу: " + elapsedTime);
-            //lblCursorPosition.Text = elapsedTime;
-            //lblInfoStatus.Text = "Читання даних із БД успішно";
-
-            //_cats = new ObservableCollection<CatVM>(list);
-            //dgSimple.ItemsSource = _cats;
-
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        { 
-            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
+            stopWatch = new Stopwatch();
+            stopWatch.Start();
+            //Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
             var list = _context.Users.Select(x => new UserVM()
             {
                 
@@ -114,8 +86,24 @@ namespace WpfBudzhet
                 Price = x.AppTranzactionPrices
                         .OrderByDescending(x => x.DateCreate)
                         .FirstOrDefault().Price
-            }).ToList();
-            _users = new ObservableCollection<UserVM>(list);
+            })
+                //.OrderBy(x => x.Name)
+                //.Skip(0)
+                //.Take(20)
+                .ToList();
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            ts = stopWatch.Elapsed;//общее затраченое время в милисек
+
+            // Format and display the TimeSpan value.
+            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            //Debug.WriteLine("Сідер 1 закінчив свою роботу: " + elapsedTime);
+            lblCursorPosition.Text = elapsedTime;// время на чтение данных
+            lblInfoStatus.Text = "Читання даних із БД успішно";
+            _users = new ObservableCollection<UserVM>(list);//обновляем юайку
             dgSimple.ItemsSource = _users;
             
         }
@@ -242,10 +230,11 @@ namespace WpfBudzhet
             newUsers = int.Parse(txtNewUsers.Text);//кол-во добавляемых юзеров
             pbZagruzka.Maximum = 100;// 100% прогресбар
             btnAddRange.IsEnabled = false;//деактивируем кнопку пока грузим юзеров
-            IUserService userService = new UserService();
+            
             userService.EventInsertItem += UpdateUIAsync;
             await userService.InsertUserAsync(newUsers);
             btnAddRange.IsEnabled = true;
+            btnAddRange.Content = "добавить ЮЗЕРОВ";
 
         }
         
