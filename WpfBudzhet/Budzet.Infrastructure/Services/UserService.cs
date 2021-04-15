@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UserBudzet.Application.Interfaces;
 
@@ -19,18 +20,26 @@ namespace Budzet.Infrastructure.Services
             _context = new EFDataContext();
         }
 
+        public bool CanselAsyngMetod { get ; set ; }
+
         public event InsertUserDelegate EventInsertItem ;
 
         public int Count()//
         {
             return _context.Users.Count();
         }
-        public void InsertUser(int count)
+        public void InsertUser(int count, ManualResetEvent mrse)
         {
             Stopwatch stopWatch = new Stopwatch();//cколько времени на добовление юзеров
             stopWatch.Start();
             for (int i = 0; i < count; i++)
             {
+                mrse.WaitOne();//задержка
+                if (CanselAsyngMetod)
+                {
+                    CanselAsyngMetod = false;
+                    break;
+                }
                 AppUser appUser = new AppUser
                 {
                     Name = "Name" + i,
@@ -57,9 +66,9 @@ namespace Budzet.Infrastructure.Services
             Console.WriteLine("Затрачено времени на генерацию Юзеров: " + elapsedTime);
         }
 
-        public Task InsertUserAsync(int count)
+        public Task InsertUserAsync(int count, ManualResetEvent mrse)
         {
-            return Task.Run(()=> InsertUser(count));
+            return Task.Run(()=> InsertUser(count, mrse));
         }
     }
 }

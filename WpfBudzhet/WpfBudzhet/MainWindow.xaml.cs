@@ -32,11 +32,11 @@ namespace WpfBudzhet
         public static int chang_User;
         private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();
         private EFDataContext _context = new EFDataContext();
-        private Thread thread1 = null;
-        private BackgroundWorker worker = null;
+        //private Thread thread1 = null;
+        //private BackgroundWorker worker = null;
         public static int newUsers;
-        IUserService userService = new UserService();
-
+        private IUserService userService = new UserService();
+        ManualResetEvent _mrse = new ManualResetEvent(false);
         public MainWindow()
         {
             InitializeComponent();
@@ -230,9 +230,9 @@ namespace WpfBudzhet
             newUsers = int.Parse(txtNewUsers.Text);//кол-во добавляемых юзеров
             pbZagruzka.Maximum = 100;// 100% прогресбар
             btnAddRange.IsEnabled = false;//деактивируем кнопку пока грузим юзеров
-            
+            this.Resume();
             userService.EventInsertItem += UpdateUIAsync;
-            await userService.InsertUserAsync(newUsers);
+            await userService.InsertUserAsync(newUsers, _mrse);
             btnAddRange.IsEnabled = true;
             btnAddRange.Content = "добавить ЮЗЕРОВ";
 
@@ -249,7 +249,7 @@ namespace WpfBudzhet
 
             IUserService userService = new UserService();
             userService.EventInsertItem += UpdateUIAsync;
-            userService.InsertUser(newUsers);
+            userService.InsertUser(newUsers, _mrse);
             Dispatcher.Invoke(new Action(() =>
             {
                 btnAddRange.IsEnabled = true;
@@ -261,9 +261,20 @@ namespace WpfBudzhet
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         {
             btnAddRange.IsEnabled = true;
+            userService.CanselAsyngMetod = true;
+            //thread1.Abort();
 
-            thread1.Abort();
+        }
 
+        public void Resume() => _mrse.Set();//отжать паузу
+        public void Pause() => _mrse.Reset();//пауза
+        private void btnPauseAddRange_Click(object sender, RoutedEventArgs e)
+        {
+            this.Pause();
+        }
+        private void btnPlayAddRange_Click(object sender, RoutedEventArgs e)
+        {
+            this.Resume();
         }
         void UpdateUIAsync(int i)
         {
