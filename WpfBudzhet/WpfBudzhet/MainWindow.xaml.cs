@@ -36,7 +36,8 @@ namespace WpfBudzhet
         //private BackgroundWorker worker = null;
         public static int newUsers;
         private IUserService userService = new UserService();
-        ManualResetEvent _mrse = new ManualResetEvent(false);
+        ManualResetEvent _mrse = new ManualResetEvent(false);//для паузы
+        bool i = true;
         public MainWindow()
         {
             InitializeComponent();
@@ -270,12 +271,25 @@ namespace WpfBudzhet
         public void Pause() => _mrse.Reset();//пауза
         private void btnPauseAddRange_Click(object sender, RoutedEventArgs e)
         {
-            this.Pause();
+            sub(ref i);
+            //this.Pause();
         }
-        private void btnPlayAddRange_Click(object sender, RoutedEventArgs e)
+
+        public void sub(ref bool i)
         {
-            this.Resume();
+            if (i)
+            {
+                btnPause.Content = " >> ";
+                this.Pause();
+            }
+            else
+            {
+                btnPause.Content = " || ";
+                this.Resume();
+            }
+            i = !i;
         }
+        
         void UpdateUIAsync(int i)
         {
 

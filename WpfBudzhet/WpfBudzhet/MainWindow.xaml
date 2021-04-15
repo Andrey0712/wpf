@@ -32,9 +32,9 @@
                 <TextBlock Text="{Binding ElementName=pbZagruzka, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" />
                 
             </Grid>
-            <Button x:Name="btnCancel" Content="Остановить добавление"  Margin="0,5" Click="btnCancelAddRange_Click"/>
+            <Button x:Name="btnCancel" Content="Отмена"  Margin="0,5" Click="btnCancelAddRange_Click"/>
             <Button x:Name="btnPause" Content="||"  Margin="0,5" Click="btnPauseAddRange_Click"/>
-            <Button x:Name="btnPlay" Content=">>"  Margin="0,5" Click="btnPlayAddRange_Click"/>
+            
         </StackPanel>
 
         <StatusBar DockPanel.Dock="Bottom">
