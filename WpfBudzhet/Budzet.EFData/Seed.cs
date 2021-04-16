@@ -9,7 +9,7 @@ namespace Budzet.EFData
 {
     public class Seed
     {
-        public static Task SeedDataAsync(EFDataContext context)
+        public static Task SeedDataAsync(EFDataContext context)//асинхронно сидим юзера
         {
             return Task.Run(() => SeedUser(context));
 

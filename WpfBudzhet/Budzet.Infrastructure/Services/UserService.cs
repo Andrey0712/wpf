@@ -20,25 +20,27 @@ namespace Budzet.Infrastructure.Services
             _context = new EFDataContext();
         }
 
-        public bool CanselAsyngMetod { get ; set ; }
+        public bool CanselAsyngMetod { get ; set ; }//устанавливаем флаг для отмены асинхронного добавления
 
         public event InsertUserDelegate EventInsertItem ;
 
-        public int Count()//
+        public int Count()//подсчитывае кол-во юзеров в базе
         {
             return _context.Users.Count();
         }
         public void InsertUser(int count, ManualResetEvent mrse)
         {
+            
             Stopwatch stopWatch = new Stopwatch();//cколько времени на добовление юзеров
             stopWatch.Start();
             for (int i = 0; i < count; i++)
             {
-                mrse.WaitOne();//задержка
+                mrse.WaitOne();//приостановка потока
                 if (CanselAsyngMetod)
                 {
                     CanselAsyngMetod = false;
-                    break;
+                    
+                    break;// остановка добавления при нажатии отмены
                 }
                 AppUser appUser = new AppUser
                 {
@@ -51,11 +53,11 @@ namespace Budzet.Infrastructure.Services
                 _context.Users.Add(appUser);
                 _context.SaveChanges();
                 if (EventInsertItem != null)
-                    EventInsertItem(i + 1);// тоже самое в 45 стр
+                    EventInsertItem(i + 1);// тоже самое ниже
                 //EventInsertItem?.Invoke(i + 1);
-                Console.WriteLine("Insert user "+ appUser.Id);
+                Debug.WriteLine("Insert user "+ appUser.Id);
             }
-            stopWatch.Stop();
+            stopWatch.Stop();//остановка подсчета времени на добавление в БД
             // Get the elapsed time as a TimeSpan value.
             TimeSpan ts = stopWatch.Elapsed;//считает тики и переводит в формат время
 
@@ -63,10 +65,10 @@ namespace Budzet.Infrastructure.Services
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
-            Console.WriteLine("Затрачено времени на генерацию Юзеров: " + elapsedTime);
+            Debug.WriteLine("Затрачено времени на генерацию Юзеров: " + elapsedTime);
         }
 
-        public Task InsertUserAsync(int count, ManualResetEvent mrse)
+        public Task InsertUserAsync(int count, ManualResetEvent mrse)//запуск инсерта асинхронно
         {
             return Task.Run(()=> InsertUser(count, mrse));
         }

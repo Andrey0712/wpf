@@ -29,15 +29,20 @@ namespace WpfBudzhet
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static int chang_User;
-        private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();
+        public static int chang_User;//id юзера для корекции данных
+        private ObservableCollection<UserVM> _users = new ObservableCollection<UserVM>();//обновление ui
         private EFDataContext _context = new EFDataContext();
         //private Thread thread1 = null;
         //private BackgroundWorker worker = null;
-        public static int newUsers;
+        public static int newUsers;//кол-во юзеров для добавления
         private IUserService userService = new UserService();
-        ManualResetEvent _mrse = new ManualResetEvent(false);//для паузы
-        bool i = true;
+        ManualResetEvent _mrse = new ManualResetEvent(false);//для приостановки потока(пауза)
+        bool i = true;//флаг для паузы
+        
+
+        
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -50,7 +55,7 @@ namespace WpfBudzhet
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            lblInfoStatus.Text = "Підключаємося до БД-----";
+            lblInfoStatus.Text = "Подключаємся к БД-----";
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();//подсчет времени инициализация подключения
 
@@ -71,12 +76,12 @@ namespace WpfBudzhet
             lblCursorPosition.Text = elapsedTime;//время подключения
             lblInfoStatus.Text = "Підключення до БД успішно";
 
-            await Seed.SeedDataAsync(_context);
+            await Seed.SeedDataAsync(_context);//асинхронно провереям не пустая ли БД и сидим
 
-            stopWatch = new Stopwatch();
+            stopWatch = new Stopwatch();//замеряем время на загрузку данных
             stopWatch.Start();
             //Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
-            var list = _context.Users.Select(x => new UserVM()
+            var list = _context.Users.Select(x => new UserVM()//запрос на получение данных
             {
                 
             Id =x.Id,
@@ -221,6 +226,7 @@ namespace WpfBudzhet
         #region Task
         private async void btnAddRange_Click(object sender, RoutedEventArgs e)
         {
+           
             //Action action = ShowMessage;
             //Task task = new Task(action);
             //Task task = new Task(()=> ShowMessage());//тоже самое через анонимный метод action
@@ -231,11 +237,11 @@ namespace WpfBudzhet
             newUsers = int.Parse(txtNewUsers.Text);//кол-во добавляемых юзеров
             pbZagruzka.Maximum = 100;// 100% прогресбар
             btnAddRange.IsEnabled = false;//деактивируем кнопку пока грузим юзеров
-            this.Resume();
-            userService.EventInsertItem += UpdateUIAsync;
-            await userService.InsertUserAsync(newUsers, _mrse);
-            btnAddRange.IsEnabled = true;
-            btnAddRange.Content = "добавить ЮЗЕРОВ";
+            this.Resume();//НЕ пауза
+            userService.EventInsertItem += UpdateUIAsync;//подисываемся на обновление UI
+            await userService.InsertUserAsync(newUsers, _mrse);//добавляем юзеров
+            btnAddRange.IsEnabled = true;//активируем кнопку
+            btnAddRange.Content = "добавить ЮЗЕРОВ";//меняем название с бегуших цифр
 
         }
         
@@ -262,8 +268,9 @@ namespace WpfBudzhet
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         {
             btnAddRange.IsEnabled = true;
-            userService.CanselAsyngMetod = true;
-            //thread1.Abort();
+            btnAddRange.Content = "добавить ЮЗЕРОВ";
+            userService.CanselAsyngMetod = true;//останавливает добавление путем изменения CanselAsyngMetod на true в инсерте
+            
 
         }
 
@@ -271,18 +278,18 @@ namespace WpfBudzhet
         public void Pause() => _mrse.Reset();//пауза
         private void btnPauseAddRange_Click(object sender, RoutedEventArgs e)
         {
-            sub(ref i);
-            //this.Pause();
+            pause_play(ref i);
+            
         }
 
-        public void sub(ref bool i)
+        public void pause_play(ref bool i)
         {
-            if (i)
+            if (i)//нажать паузу, изменить флаг
             {
                 btnPause.Content = " >> ";
                 this.Pause();
             }
-            else
+            else//наоборот
             {
                 btnPause.Content = " || ";
                 this.Resume();
