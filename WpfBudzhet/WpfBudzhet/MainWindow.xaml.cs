@@ -175,14 +175,14 @@ namespace WpfBudzhet
         //    btnAddRange.IsEnabled = false;
         //    thread1 = new Thread(ShowMessage);
         //    thread1.Start();
-            
+
         //}
         //private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         //{
         //    btnAddRange.IsEnabled = true;
 
         //    thread1.Abort();
-            
+
         //}
 
 
@@ -208,8 +208,8 @@ namespace WpfBudzhet
         //}
         //void UpdateUIAsync(int i)
         //{
-            
-           
+
+
         //    Application.Current.Dispatcher.Invoke(//диспетчер обновляет UI путем
         //            new Action(() =>//Создается делегат что указывает на анонимный метод
         //            {
@@ -218,33 +218,49 @@ namespace WpfBudzhet
         //                Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);
 
         //            }));
-            
-            
+
+
         //}
         #endregion
 
         #region Task
         private async void btnAddRange_Click(object sender, RoutedEventArgs e)
         {
-           
-            //Action action = ShowMessage;
-            //Task task = new Task(action);
-            //Task task = new Task(()=> ShowMessage());//тоже самое через анонимный метод action
-            //task.Start();
-            //Task.Run(() => ShowMessage()); //тоже самое через анонимный метод
+            //using (var transaction = _context.Database.BeginTransaction())
+            //{
+            //    try
+            //    {
+                    Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);//в дебагесмотрим какой поток 
+                    newUsers = int.Parse(txtNewUsers.Text);//кол-во добавляемых юзеров
+                    pbZagruzka.Maximum = 100;// 100% прогресбар
+                    btnAddRange.IsEnabled = false;//деактивируем кнопку пока грузим юзеров
+                    Resume();//НЕ пауза
+                    userService.EventInsertItem += UpdateUIAsync;//подисываемся на обновление UI
+                    await userService.InsertUserAsync(newUsers, _mrse);//добавляем юзеров
+                    btnAddRange.IsEnabled = true;//активируем кнопку
+                    btnAddRange.Content = "добавить ЮЗЕРОВ";//меняем название с бегуших цифр
+                //    if (!userService.CanselAsyngMetod)
+                //    {
+                //        //  Метод, який зберігає усі зміни БД
+                //        transaction.Commit();
+                //    }
 
-            Debug.WriteLine("Thread id : {0}", Thread.CurrentThread.ManagedThreadId);//в дебагесмотрим какой поток 
-            newUsers = int.Parse(txtNewUsers.Text);//кол-во добавляемых юзеров
-            pbZagruzka.Maximum = 100;// 100% прогресбар
-            btnAddRange.IsEnabled = false;//деактивируем кнопку пока грузим юзеров
-            this.Resume();//НЕ пауза
-            userService.EventInsertItem += UpdateUIAsync;//подисываемся на обновление UI
-            await userService.InsertUserAsync(newUsers, _mrse);//добавляем юзеров
-            btnAddRange.IsEnabled = true;//активируем кнопку
-            btnAddRange.Content = "добавить ЮЗЕРОВ";//меняем название с бегуших цифр
+                    
+                //}
+                //catch (Exception ex)
+                //{
+                //    transaction.Rollback();
+                //}
+                //Action action = ShowMessage;
+                //Task task = new Task(action);
+                //Task task = new Task(()=> ShowMessage());//тоже самое через анонимный метод action
+                //task.Start();
+                //Task.Run(() => ShowMessage()); //тоже самое через анонимный метод
 
+
+
+            //}
         }
-        
         private void ShowMessage()
         {
 
