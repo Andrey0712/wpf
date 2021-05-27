@@ -80,6 +80,7 @@ namespace Budzet.Infrastructure.Services
                 catch (Exception ex)
                 {
                      transaction.Rollback();//  Отмена транзакции
+
                 }
                 CanselAsyngMetod = false;
             }
