@@ -27,18 +27,18 @@ namespace Base64WPF
 
         private void Save_code_Click(object sender, RoutedEventArgs e)
         {
-            string simpleText = tbText.Text;
-            var simpleTextBytes = Encoding.UTF8.GetBytes(simpleText);
-            tbRezalt.Text = Convert.ToBase64String(simpleTextBytes).ToString();
+            string Text = tbText.Text;
+            var TextBytes = Encoding.UTF8.GetBytes(Text);
+            tbRezalt.Text = Convert.ToBase64String(TextBytes).ToString();
 
             
         }
 
         private void Save_base64_Click(object sender, RoutedEventArgs e)
         {
-            string enText = tbBase64.Text;
-            var enTextBytes = Convert.FromBase64String(enText);
-            tbRezalt.Text = Encoding.UTF8.GetString(enTextBytes);
+            string Text_base64 = tbBase64.Text;
+            var TextBytes = Convert.FromBase64String(Text_base64);
+            tbRezalt.Text = Encoding.UTF8.GetString(TextBytes);
         }
     }
 }
